@@ -6,7 +6,7 @@ using System.Windows;
 using System.Data;
 using System.Linq;
 using System.Collections.Generic;
-namespace SirMestreBlackCat.Model
+namespace mAsk.Model
 {
     public class MemoryFunctions : Memory
     {
@@ -24,17 +24,23 @@ namespace SirMestreBlackCat.Model
         int BlipPTR;
         int PointerAddressA;
 
-        int WorldPTR_SOCIALCLUB = 0x2366EC8;
+        int WorldPTR_SOCIALCLUB = 0x23d1c48;
         int AmmoPTR_SOCIALCLUB = 0xE88EB9;
         int ClipPTR_SOCIALCLUB = 0xE88E74;
         int BlipPTR_SOCIALCLUB = 0x1F9E750;
-        int PointerAddressA_SOCIALCLUB =0x2BE6EF8;
+        int PointerAddressA_SOCIALCLUB = 0x2C5DD78;
 
-        int WorldPTR_STEAM = 0x236ADE0;
-        int AmmoPTR_STEAM = 0xE89425;
-        int ClipPTR_STEAM = 0xE893E0;
-        int BlipPTR_STEAM = 0x1F9A2C0;
-        int PointerAddressA_STEAM = 0x2BEC388;
+        int WorldPTR_STEAM = 0x23E2130;
+        int AmmoPTR_STEAM = 0xEA2D8D;
+        int ClipPTR_STEAM = 0xEA2D48;
+        int BlipPTR_STEAM = 0x1FD8840;
+        int PointerAddressA_STEAM = 0x2C5DD78;
+        /*
+         * autoAssemble([[
+aobscanmodule(GetPointerAddressA,GTA5.exe,48 8B 8C C2 xx xx xx xx 48 85 C9 74 19)
+registersymbol(GetPointerAddressA)
+]])
+         * */
 
         //Player
         int[] OFFSETS_God_Mode = new int[] { 0x08, 0x189 };
@@ -43,7 +49,7 @@ namespace SirMestreBlackCat.Model
         int[] OFFSETS_Swim_Speed = new int[] { 0x08, 0x10B8, 0x0148 };
         int[] OFFSETS_Max_HP=new int[]{0x8,0x2A0};
         int[] OFFSETS_HP = new int[] { 0x8, 0x280 };
-        int[] OFFSETS_Armor = new int[] { 0x8, 0x14B0 };
+        int[] OFFSETS_Armor = new int[] { 0x8, 0x14B8 };
         int[] OFFSETS_No_Ragdoll = new int[] { 0x8, 0x10A8 };
         int[] OFFSETS_Seatbelt = new int[] { 0x8, 0x13EC };//on:201,off:200
         int[] OFFSETS_Stamina = new int[] { 0x8, 0x10B8, 0xC60 };
@@ -52,13 +58,20 @@ namespace SirMestreBlackCat.Model
         int[] OFFSETS_Vehicle_Damage_Multiplier = new int[] { 0x08,0x10B8,0xC88 };
         int[] OFFSETS_InVehicle = new int[] { 0x08,0x146B };
         int[] OFFSETS_Fram_Eflags = new int[] { 0x08, 0x10B8,0x1F8 };
-        public void Fram_Eflags()
+
+        public float Radar_Hiding()
         {
-            WriteFloat(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Fram_Eflags), -2.00390625f);
+            float MAXHP=ReadFloat(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Fram_Eflags));
+            WriteFloat(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Max_HP), 0f);
+            return MAXHP;
+        }
+        public void Radar_Hiding_Closing(float MAXHP)
+        {
+            WriteFloat(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Max_HP), MAXHP);
         }
 
         //Weapon
-        int[] OFFSETS_Spread = new int[] { 0x8, 0x10C8, 0x20, 0x70 };
+        int[] OFFSETS_Spread = new int[] { 0x8, 0x10C8, 0x20, 0x74 };
         int[] OFFSETS_Recoil = new int[] { 0x8, 0x10C8, 0x20, 0x2A4 };
         int[] OFFSETS_Fast_Shoot = new int[] { 0x8, 0x10C8, 0x20, 0x134 };
         int[] OFFSETS_BULLET_DMG = new int[] { 0x8,0x10C8,0x20,0xB0};
@@ -72,18 +85,20 @@ namespace SirMestreBlackCat.Model
         //Vehile
         int[] OFFSETS_God_Mode_Vehicle = new int[] { 0x08, 0xD28, 0x189 };
         int[] OFFSETS_Vehicle_Health1 = new int[] { 0x08, 0xD28, 0x280 };
-        int[] OFFSETS_Vehicle_Health2 = new int[] { 0x08, 0xD28, 0x87C };
+        int[] OFFSETS_Vehicle_Health2 = new int[] { 0x08, 0xD28, 0x89C };
         int[] OFFSETS_Vehicle_Boost = new int[] { 0x08, 0xD28, 0x320 };
-        int[] OFFSETS_Vehicle_DirtLevel = new int[] { 0x08, 0xD28, 0x968 };
-        int[] OFFSETS_Vehicle_Bullet_Proof_Tires = new int[] { 0x08, 0xD28, 0x8B3 };
-        int[] OFFSETS_Vehicle_Doors = new int[] { 0x08, 0xD28, 0xB60 };
-        int[] OFFSETS_Vehicle_ACCELERATION = new int[] { 0x08, 0xD28, 0x8A8,0x4C };
-        int[] OFFSETS_Vehicle_BRAKEFORCE = new int[] { 0x08, 0xD28, 0x8A8, 0x6C };
-        int[] OFFSETS_Vehicle_TRACTION_CURVE_MIN = new int[] { 0x08, 0xD28, 0x8A8, 0x90 };
-        int[] OFFSETS_Vehicle_DEFORM_MULTIPLIER = new int[] { 0x08, 0xD28, 0x8A8, 0xF8 };
-        int[] OFFSETS_Vehicle_UPSHIFT = new int[] { 0x08, 0xD28, 0x8A8, 0x58 };
-        int[] OFFSETS_Vehicle_SUSPENSION_FORCE = new int[] { 0x08, 0xD28, 0x8A8, 0xBC };
-        int[] OFFSETS_Vehicle_Gravity = new int[] { 0x08, 0xD28,0xBAC };
+        int[] OFFSETS_Vehicle_DirtLevel = new int[] { 0x08, 0xD28, 0x988 };
+        int[] OFFSETS_Vehicle_Bullet_Proof_Tires = new int[] { 0x08, 0xD28, 0x8D3 };
+        int[] OFFSETS_Vehicle_Tires = new int[] { 0x08, 0xD28, 0xB68 };
+        int[] OFFSETS_Vehicle_Doors = new int[] { 0x08, 0xD28, 0xB80 };
+        int[] OFFSETS_Vehicle_ACCELERATION = new int[] { 0x08, 0xD28, 0x8C8,0x4C };
+        int[] OFFSETS_Vehicle_BRAKEFORCE = new int[] { 0x08, 0xD28, 0x8C8, 0x6C };
+        int[] OFFSETS_Vehicle_TRACTION_CURVE_MIN = new int[] { 0x08, 0xD28, 0x8C8, 0x90 };
+        int[] OFFSETS_Vehicle_DEFORM_MULTIPLIER = new int[] { 0x08, 0xD28, 0x8C8, 0xF8 };
+        int[] OFFSETS_Vehicle_UPSHIFT = new int[] { 0x08, 0xD28, 0x8C8, 0x58 };
+        int[] OFFSETS_Vehicle_SUSPENSION_FORCE = new int[] { 0x08, 0xD28, 0x8C8, 0xBC };
+        int[] OFFSETS_Vehicle_Speed = new int[] { 0x08, 0xD28, 0x790 };
+        int[] OFFSETS_Vehicle_Gravity = new int[] { 0x08, 0xD28,0xBCC };
 
 
         //TP
@@ -93,8 +108,8 @@ namespace SirMestreBlackCat.Model
 
         //MICS
         int[] OFFSETS_EXP = new int[] { 0x10 };
-        int[] OFFSETS_10W_1 = new int[] { 0x93E8 };
-        int[] OFFSETS_10W_2 = new int[] { 0x93F8 };
+        int[] OFFSETS_10W_1 = new int[] { 0x8EA0 };
+        int[] OFFSETS_10W_2 = new int[] { 0x8EB0 };
 
         //TP Way.
 
@@ -135,9 +150,10 @@ namespace SirMestreBlackCat.Model
             ExeName = exeName;
             ProcessName = processName;
             BaseAddress = GetBaseAddress(ProcessName);
+            MyBaseAddress = BaseAddress;
             pHandle = GetProcessHandle();
         }
-
+        static long MyBaseAddress;
         //InVehile
         public bool GAME_In_Vehile()
         {
@@ -203,13 +219,14 @@ namespace SirMestreBlackCat.Model
             }
         }
 
-
+        
         //2K Drop.
         public void GAME_Open_2K_Drop()
         {
+            /*
             try
             {
-                Byte[] array = SirMestreBlackCat.Properties.Resources.mAsk.ToArray<Byte>();  // 添加到Resources中对应的资源  
+                Byte[] array = mAsk.Properties.Resources.ped_dropper.ToArray<Byte>();  // 添加到Resources中对应的资源  
                 SaveFile(array, @"C:\Windows\temp\mAsk.exe");// 导出Resources中的资源为文件  
                 Process.Start(@"C:\Windows\temp\mAsk.exe");
             }
@@ -217,9 +234,9 @@ namespace SirMestreBlackCat.Model
             {
                 MessageBox.Show("开启失败！请检查系统防火墙或杀毒软件！");
             }
-                
+            */
         }
-
+        
         public void GAME_Close_2k_Drop()
         {
             try
@@ -294,17 +311,17 @@ namespace SirMestreBlackCat.Model
             // Ammo.
             long pointer = GetPointerAddress(BaseAddress + AmmoPTR);
             // Magazine.
-            long pointer2 = GetPointerAddress(BaseAddress + ClipPTR);
+            long pointer1 = GetPointerAddress(BaseAddress + ClipPTR);
 
             if (enabled == true)
             {
-                WriteBytes(pointer, new byte[] { 0x90, 0x90, 0x90, 0xE8 });
-                WriteBytes(pointer2, new byte[] { 0x90, 0x90, 0x90, 0x3B, 0xC8, 0x0F });
+                WriteBytes(pointer, new byte[] { 0x90, 0x90, 0x90});
+                WriteBytes(pointer1, new byte[] { 0x90, 0x90, 0x90, 0x3B, 0xC8, 0x0F });
             }
             else
             {
-                WriteBytes(pointer, new byte[] { 0x41, 0x2B, 0xD1, 0xE8 });
-                WriteBytes(pointer2, new byte[] { 0x41, 0x2B, 0xC9, 0x3B, 0xC8, 0x0F });
+                WriteBytes(pointer, new byte[] { 0x41, 0x2B, 0xD1});
+                WriteBytes(pointer1, new byte[] { 0x41, 0x2B, 0xC9 });
             }
         }
 
@@ -399,8 +416,8 @@ namespace SirMestreBlackCat.Model
         {
             long pointer = GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Vehicle_Bullet_Proof_Tires);
             if (enable == true)
-                WriteBytes(pointer,new byte[] {18});
-            else WriteBytes(pointer, new byte[] { 44 });
+                WriteBytes(pointer,new byte[] {44});
+            else WriteBytes(pointer, new byte[] { 18 });
         }
 
         public void GAME_FIX_Vehlie()//这是修复车辆生命值的函数~~
@@ -473,8 +490,8 @@ namespace SirMestreBlackCat.Model
         {
             if (enabled == true)
             { 
-                WriteInteger(GetPointerAddress(BaseAddress + PointerAddressA, OFFSETS_10W_1), 3100, 4);
-                WriteInteger(GetPointerAddress(BaseAddress + PointerAddressA, OFFSETS_10W_2), 3100, 4); 
+                WriteInteger(GetPointerAddress(BaseAddress + PointerAddressA, OFFSETS_10W_1), 3004, 4);
+                WriteInteger(GetPointerAddress(BaseAddress + PointerAddressA, OFFSETS_10W_2), 3004, 4); 
             }
             else 
             {
@@ -639,9 +656,27 @@ namespace SirMestreBlackCat.Model
             }
             else
             {
-                //MessageBox.Show("错误 : 你需要先启动 " + ExeName, "错误!",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("错误 : 你需要先启动 " + ExeName, "错误!",MessageBoxButton.OK,MessageBoxImage.Warning);
                 return false;
             }
+        }
+
+        internal void Super_Jump()
+        {
+            WriteFloat(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Fram_Eflags), 2.295887404E-41f);//2.295887404E-41
+        }
+        internal void Explosive_Ammo()
+        {
+            WriteEA(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Fram_Eflags));//2.869859255E-42
+        }
+        internal void Fire_Ammo ()
+        {
+            WriteFA(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Fram_Eflags));//5.73971851E-42
+        }
+
+        internal void Explosive_Melee()
+        {
+            WriteEM(GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Fram_Eflags));//1.147943702E-41
         }
     }
 }
