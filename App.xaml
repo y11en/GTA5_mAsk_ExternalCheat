@@ -1,7 +1,7 @@
-﻿<Application x:Class="SirMestreBlackCat.App"
+﻿<Application x:Class="mAsk.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SirMestreBlackCat"
+             xmlns:local="clr-namespace:mAsk"
              StartupUri="MainWindow.xaml"
              >
     <Application.Resources>
