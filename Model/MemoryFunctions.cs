@@ -1,4 +1,4 @@
-﻿using Model.Libraries.Memory;
+using Model.Libraries.Memory;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -226,8 +226,8 @@ registersymbol(GetPointerAddressA)
             /*
             try
             {
-                Byte[] array = mAsk.Properties.Resources.ped_dropper.ToArray<Byte>();  // 添加到Resources中对应的资源  
-                SaveFile(array, @"C:\Windows\temp\mAsk.exe");// 导出Resources中的资源为文件  
+                Byte[] array = mAsk.Properties.Resources.ped_dropper.ToArray<Byte>(); 
+                SaveFile(array, @"C:\Windows\temp\mAsk.exe");
                 Process.Start(@"C:\Windows\temp\mAsk.exe");
             }
             catch (Exception e)
@@ -244,8 +244,8 @@ registersymbol(GetPointerAddressA)
                 Process[] pro = Process.GetProcessesByName("mAsk");
                 if (pro.Length != 0)
                 {
-                    Process[] process = Process.GetProcesses();//获取当前任务管理器所有运行中程序
-                    foreach (Process proces in process)//遍历
+                    Process[] process = Process.GetProcesses();
+                    foreach (Process proces in process)
                     {
                         if (proces.ProcessName == "mAsk")
                         {
@@ -262,14 +262,10 @@ registersymbol(GetPointerAddressA)
 
         private static void SaveFile(Byte[] array, string path)
         {
-            // 创建输出流  
-            System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.Create);
-
-            //将byte数组写入文件中  
+            FileStream fs = new FileStream(path, System.IO.FileMode.Create); 
             fs.Write(array, 0, array.Length);
             fs.Close();
         }
-
 
         // Wanted Level.
         public int GAME_get_Wanted_Level()
@@ -420,7 +416,8 @@ registersymbol(GetPointerAddressA)
             else WriteBytes(pointer, new byte[] { 18 });
         }
 
-        public void GAME_FIX_Vehlie()//这是修复车辆生命值的函数~~
+        //FIX VEHLIE
+        public void GAME_FIX_Vehlie()
         {
             long pointer1 = GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Vehicle_Health1);
             long pointer2 = GetPointerAddress(BaseAddress + WorldPTR, OFFSETS_Vehicle_Health2);
@@ -509,7 +506,7 @@ registersymbol(GetPointerAddressA)
             else WriteFloat(GetPointerAddress(BaseAddress + PointerAddressA, OFFSETS_EXP), 1f);
         }
 
-        /*
+        
          // Unlimited Ammo Clip.
         public void GAME_set_Unlimited_Ammo_Clip(bool? enabled)
         {
@@ -529,7 +526,7 @@ registersymbol(GetPointerAddressA)
                 WriteBytes(pointer2, new byte[] { 0x41, 0x2B, 0xC9, 0x3B, 0xC8, 0x0F });
             }
  
-        }*/
+        }
 
         /*
         //Weapon
