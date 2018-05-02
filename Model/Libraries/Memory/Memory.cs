@@ -83,8 +83,25 @@ namespace Model.Libraries.Memory
         }
         public void WriteFloat(long Address, float Value)
         {
-            WriteProcessMemory(GetProcessHandle(), Address, BitConverter.GetBytes(Value), 4);
+            WriteProcessMemory(pHandle, Address, BitConverter.GetBytes(Value), 4);
         }
+
+        byte[] EA = BitConverter.GetBytes(2.869859255E-42f);
+        public void WriteEA(long Address)
+        {
+            WriteProcessMemory(pHandle, Address, EA, 4);
+        }
+        byte[] EM = BitConverter.GetBytes(1.147943702E-41f);
+        public void WriteEM(long Address)
+        {
+            WriteProcessMemory(pHandle, Address,EM, 4);
+        }
+        byte[] FA = BitConverter.GetBytes(5.73971851E-42f);
+        public void WriteFA(long Address)
+        {
+            WriteProcessMemory(pHandle, Address, FA, 4);
+        }
+
         public void WriteDouble(long Address, double Value)
         {
             WriteProcessMemory(GetProcessHandle(), Address, BitConverter.GetBytes(Value), 8);
