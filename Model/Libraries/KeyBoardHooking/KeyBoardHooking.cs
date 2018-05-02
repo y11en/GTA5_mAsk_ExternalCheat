@@ -1,8 +1,7 @@
-﻿using SirMestreBlackCat.Model;
+﻿using mAsk.Model;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -20,12 +19,11 @@ namespace Model.Libraries.KeyBoardHooking
 
         public KeyBoardHooking()
         {
-            // Keyboard hooking (F9).
             Thread Thread1 = new Thread(() =>
             {
                 while (true)
                 {
-                    if (GetAsyncKeyState(120) == -32767)
+                    if (GetAsyncKeyState(120) == -32767)//F9
                     {
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
@@ -41,6 +39,7 @@ namespace Model.Libraries.KeyBoardHooking
                             }
                         }));
                     }
+                    Thread.Sleep(50);
                 }
             });
             Thread1.IsBackground = true;
